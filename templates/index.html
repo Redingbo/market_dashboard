@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Market Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f7f6; }
+        .container { max-width: 800px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stats-panel { border: 1px solid #e0e0e0; padding: 15px; border-radius: 5px; }
+        .stats-panel h2 { margin-top: 0; }
+        .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .stat:last-child { border-bottom: none; }
+        .stat-label { font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>My Market Dashboard</h1>
-    <p>Deployment successful! The "At-a-Glance" panel will go here soon.</p>
+    <div class="container">
+        <h1>Market Dashboard: AAPL</h1>
+
+        <div class="stats-panel">
+            <h2>At-a-Glance</h2>
+            <div class="stat">
+                <span class="stat-label">Previous Close</span>
+                <span>${{ stats.previous_close }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Open</span>
+                <span>${{ stats.open }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Day High</span>
+                <span>${{ stats.day_high }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Day Low</span>
+                <span>${{ stats.day_low }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Volume</span>
+                <span>{{ stats.volume }}</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
