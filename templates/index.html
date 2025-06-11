@@ -11,7 +11,6 @@
         .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .stat:last-child { border-bottom: none; }
         .stat-label { font-weight: bold; }
-        /* NEW: Styles for the news list */
         .news-list { list-style: none; padding-left: 0; }
         .news-item { border-bottom: 1px solid #eee; padding: 12px 0; }
         .news-item:last-child { border-bottom: none; }
@@ -26,7 +25,27 @@
 
         <div class="panel">
             <h2>At-a-Glance</h2>
+            <div class="stat">
+                <span class="stat-label">Previous Close</span>
+                <span>${{ stats.previous_close }}</span>
             </div>
+            <div class="stat">
+                <span class="stat-label">Open</span>
+                <span>${{ stats.open }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Day High</span>
+                <span>${{ stats.day_high }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Day Low</span>
+                <span>${{ stats.day_low }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Volume</span>
+                <span>{{ stats.volume }}</span>
+            </div>
+        </div>
 
         <div class="panel">
             {{ chart_html|safe }}
