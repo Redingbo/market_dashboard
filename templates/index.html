@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Market Dashboard: {{ symbol.upper() }}</title> 
+    <title>Market Dashboard: {{ symbol.upper() }}</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f7f6; color: #333; }
         .container { max-width: 800px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -11,6 +11,13 @@
         .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .stat:last-child { border-bottom: none; }
         .stat-label { font-weight: bold; }
+        /* NEW: Styles for the news list */
+        .news-list { list-style: none; padding-left: 0; }
+        .news-item { border-bottom: 1px solid #eee; padding: 12px 0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-item a { text-decoration: none; color: #0056b3; font-weight: bold; }
+        .news-item a:hover { text-decoration: underline; }
+        .news-source { font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body>
@@ -19,30 +26,24 @@
 
         <div class="panel">
             <h2>At-a-Glance</h2>
-            <div class="stat">
-                <span class="stat-label">Previous Close</span>
-                <span>${{ stats.previous_close }}</span>
             </div>
-            <div class="stat">
-                <span class="stat-label">Open</span>
-                <span>${{ stats.open }}</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Day High</span>
-                <span>${{ stats.day_high }}</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Day Low</span>
-                <span>${{ stats.day_low }}</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Volume</span>
-                <span>{{ stats.volume }}</span>
-            </div>
-        </div>
 
         <div class="panel">
             {{ chart_html|safe }}
+        </div>
+
+        <div class="panel">
+            <h2>Financial News</h2>
+            <ul class="news-list">
+                {% for article in articles %}
+                    <li class="news-item">
+                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                        <div class="news-source">Source: {{ article.source.name }}</div>
+                    </li>
+                {% else %}
+                    <li>No news articles found. The API might be down or your key may be invalid.</li>
+                {% endfor %}
+            </ul>
         </div>
 
     </div>
