@@ -1,16 +1,31 @@
 from flask import Flask, render_template
 import yfinance as yf
-import plotly.graph_objects as go # NEW: Import plotly graph objects
+import plotly.graph_objects as go
 
 app = Flask(__name__)
 
+# NEW: A simple home page route
 @app.route('/')
-def home():
+def index():
+    # A simple message and a link to an example dashboard
+    return """
+    <h1>Welcome to the Market Dashboard</h1>
+    <p>Try appending a stock symbol to the URL, like this:</p>
+    <ul>
+        <li><a href="/dashboard/AAPL">/dashboard/AAPL</a></li>
+        <li><a href="/dashboard/TSLA">/dashboard/TSLA</a></li>
+        <li><a href="/dashboard/MSFT">/dashboard/MSFT</a></li>
+    </ul>
     """
-    This function runs when someone visits the main page of the website.
+
+# NEW: The dynamic route for our dashboard
+@app.route('/dashboard/<symbol>')
+def home(symbol): # NEW: The function now accepts the 'symbol' from the URL
+    """
+    This function runs when someone visits a dynamic dashboard page.
     """
     # --- Part 1: "At-a-Glance" Panel Data ---
-    ticker = yf.Ticker("AAPL")
+    ticker = yf.Ticker(symbol) # NEW: Use the symbol from the URL
     info = ticker.info
     stats = {
         'previous_close': info.get('previousClose', 'N/A'),
@@ -20,11 +35,8 @@ def home():
         'volume': f"{info.get('volume', 0):,}"
     }
 
-    # --- NEW: Part 2: Interactive Candlestick Chart ---
-    # Fetch 1 day of data at a 5-minute interval
+    # --- Part 2: Interactive Candlestick Chart ---
     hist_df = ticker.history(period="1d", interval="5m")
-
-    # Create the plotly figure
     fig = go.Figure(
         data=[
             go.Candlestick(
@@ -36,21 +48,17 @@ def home():
             )
         ]
     )
-
-    # Update the layout for a cleaner look
+    
+    # NEW: Use the symbol variable in the title
     fig.update_layout(
-        title='AAPL 5-Minute Candlestick Chart',
+        title=f'{symbol.upper()} 5-Minute Candlestick Chart',
         yaxis_title='Stock Price (USD)',
         xaxis_title='Time',
-        xaxis_rangeslider_visible=False # Hides the bulky range slider
+        xaxis_rangeslider_visible=False
     )
 
-    # Convert the figure to an HTML div
-    # include_plotlyjs='cdn' loads the JS from a remote source to keep our app light
-    # full_html=False makes it a component, not a full page
     chart_html = fig.to_html(full_html=False, include_plotlyjs='cdn')
 
-
     # --- Part 3: Render the template ---
-    # Pass both the stats and the chart HTML to the template
-    return render_template('index.html', stats=stats, chart_html=chart_html)
+    # NEW: Pass the symbol to the template as well
+    return render_template('index.html', stats=stats, chart_html=chart_html, symbol=symbol)

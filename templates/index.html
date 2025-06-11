@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Market Dashboard</title>
+    <title>Market Dashboard: {{ symbol.upper() }}</title> 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f7f6; color: #333; }
         .container { max-width: 800px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Market Dashboard: AAPL</h1>
+        <h1>Market Dashboard: {{ symbol.upper() }}</h1>
 
         <div class="panel">
             <h2>At-a-Glance</h2>
